@@ -8,31 +8,25 @@ int main() {
 	cin.tie(NULL);
 
 	int h, w;
-	int sum = 0;
+	int n, m;
+	int tmp = 0;
 	int max = 0;
 	cin >> h >> w;
-	vector<vector<int>> a(h, vector<int>(w));
-	for (int i = 0; i < h; i++) {
-		for (int j = 0; j < w; j++) {
+	vector<vector<int>> a(h + 2, vector<int>(w + 2));
+	vector<vector<int>> dy(h + 2, vector<int>(w + 2));
+	for (int i = 1; i <= h; i++) {
+		for (int j = 1; j <= w; j++) {
 			cin >> a[i][j];
+			dy[i][j] = dy[i - 1][j] + dy[i][j - 1] - dy[i - 1][j - 1] + a[i][j];
 		}
 	}
-	int h1, w1;
-	int cnt1 = 0;
-	int cnt2 = 0;
-	cin >> h1 >> w1;
 
-	for (int i = 0; i < h - h1 + 1; i++) {
-		for (int j = 0; j < w - w1 + 1; j++) {
-			sum = 0;
-			for (int k = i; k < i + h1; k++) {
-				for (int l = j; l < j + w1; l++) {
-					sum += a[k][l];
-					}
-				}
-			if (sum > max) {
-				max = sum;
-			}
+	cin >> n >> m;
+	for (int i = n; i <= h; i++) {
+		for (int j = m; j <= w; j++) {
+			tmp = dy[i][j] - dy[i - n][j] - dy[i][j - m] + dy[i - n][j - m];
+			if (tmp > max)
+				max = tmp;
 		}
 	}
 	cout << max;
